@@ -13,7 +13,7 @@ define([
         this._templatesContainer = templatesContainer;
 
         this._session = null;
-        this._log = new UserLog(dom.createElement('ol', {class: 'user-log'}));
+        this._log = new UserLog(dom.createElement('ol', {class: 'user-log hidden'}));
 
         // we should also run this when the login status changes, so that
         // forms can be enabled/disabled if the user is authorized to

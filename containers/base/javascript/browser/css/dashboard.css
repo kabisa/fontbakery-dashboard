@@ -18,6 +18,9 @@
   --border-radius-large: 1.5em;
   --border-radius-small: 0.7em;
 
+  /* Element sizes */
+  --icon-size: 2em;
+
 }
 
 body{
@@ -207,6 +210,30 @@ a{
 .sending-interface .cardcontainer{
     display: flex;
     flex-wrap: wrap;
+}
+
+.custom-stepper-label{
+    position: absolute !important;
+    display: flex;
+    flex-direction: column;
+    max-height: 84px !important;;
+}
+
+.custom-stepper{
+    max-width: 100%;
+}
+
+.custom-stepper-step{
+    display: flex;
+    flex-direction: column;
+    max-height: 84px;
+    /*position: absolute !important;*/
+}
+
+.icon-container{
+    width: var(--icon-size);
+    height: var(--icon-size);
+    margin-bottom: var(--spacing-small);
 }
 
 .action{
