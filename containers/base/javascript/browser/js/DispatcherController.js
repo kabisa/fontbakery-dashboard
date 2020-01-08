@@ -479,8 +479,6 @@ define([
                 target.classList.add(processState.finishedStatus.status);
         }
         else {
-            dom.insertAtMarkerComment(target, 'insert: message'
-                                , dom.createElement('span', {}, 'initializing process …'));
             dom.insertAtMarkerComment(target, 'insert: user-interfaces',
                 this._createUserInteraction(processId, uiDescriptions[0], isInit));
         }
