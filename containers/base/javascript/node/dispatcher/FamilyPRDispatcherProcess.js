@@ -2254,7 +2254,7 @@ function uiPreInit(resources) {
             PROCESS_MODE_TO_SOURCE_ID.get(PROCESS_MODE_SANDBOX))
     ]).then(([productionFamilyList, sandboxFamilyList])=>{
 
-    // it's probably neeed, that we take a state argument and return
+    // it's probably needed, that we take a state argument and return
     // different uis for this, so we can create a kind of a dialogue
     // with the client...
     // on the other hand, that's totally possible once we created the
@@ -2322,11 +2322,11 @@ function uiPreInit(resources) {
     });
     result.ui.push(...newUi);
 
-    result.ui.push({
-                name: 'note'
-              , type: 'text' // textarea
-              , label: 'Additional Notes:'
-            });
+    // result.ui.push({
+    //             name: 'note'
+    //           , type: 'text' // textarea
+    //           , label: 'Additional Notes:'
+    //         });
     return result;
     });
 }

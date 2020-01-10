@@ -7,10 +7,11 @@ define([
 ) {
     /* jshint browser:true, esnext:true, devel: true*/ //  esnext:true TEMPORAY ???
     "use strict";
-    function DispatcherController(container, templatesContainer, socket, data) {
+    function DispatcherController(container, templatesContainer, socket, data, mdlComponentHandler) {
         //jshint unused:vars
         this._container = container;
         this._templatesContainer = templatesContainer;
+        this._mdlComponentHandler = mdlComponentHandler;
 
         this._session = null;
         this._log = new UserLog(dom.createElement('ol', {class: 'user-log hidden'}));
@@ -60,10 +61,31 @@ define([
     }
     var _p = DispatcherController.prototype;
 
+    _p._initMdlDropdowns = function(template) {
+      var dropdowns = template.querySelectorAll('.getmdl-select');
+      var that = this;
+
+      [].forEach.call(dropdowns, function (dropdown) {
+          getmdlSelect._addEventListeners(dropdown);
+          that._mdlComponentHandler.upgradeElement(dropdown);
+          that._mdlComponentHandler.upgradeElement(dropdown.querySelector('ul'));
+      });
+    }
 
     _p._getElementFromTemplate = function(className) {
-        var template = this._templatesContainer.getElementsByClassName(className)[0];
-        return template.cloneNode(true);
+
+      var templateString = this._templatesContainer.innerHTML;
+      var template = document.createRange().createContextualFragment(templateString);
+      var element = template.querySelector("." + className);
+
+      this._mdlComponentHandler.upgradeElements(element);
+      this._initMdlDropdowns(template);
+
+      return element;
+
+
+        // var template = this._templatesContainer.getElementsByClassName(className)[0];
+        // return template.cloneNode(true);
     };
 
     _p._clearContainer = function() {
@@ -537,6 +559,8 @@ define([
           , named = {}
           ;
 
+          form.classList.add("questionContainer");
+
         // If any uiField has a key 'condition'
         // the value lools like [string name, value]
         // that means: show/use/submit this field only if
@@ -687,7 +711,8 @@ define([
     };
 
     _p._uiMakeSend = function(description, disabled) {
-        var button = dom.createElement('button', {}, description.text || 'Send!');
+        var button = dom.createElement('button', {}, description.text || 'Start process');
+        button.classList.add("initiate", "mdl-button", "mdl-js-button", "mdl-js-ripple-effect");
         if(disabled) button.disabled = true;
         return this._uiLabel(description, button);
     };

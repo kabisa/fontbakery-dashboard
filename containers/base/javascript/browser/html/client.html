@@ -10,8 +10,12 @@
     
     <!-- Material Design -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.min.css">
-    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <link rel="stylesheet" href="/browser/css/material.min.css">
+    <script src="/browser/js/material.min.js"></script>
+
+    <!--getmdl-select-->   
+    <link rel="stylesheet" href="/browser/css/getmdl-select.min.css">
+    <script defer src="/browser/js/getmdl-select.min.js"></script>
 
     <script>
         require(['/browser/js/bootstrap.js'], function(require) {
@@ -162,8 +166,7 @@
     </form>
 </div>
 
-<div class="dispatcher-templates" style="display:none">
-
+<script type="text/templates" class="dispatcher-templates">
     <div class="thank-you">
         <h2>Thank You,</h2>
         <p>for submitting this request to update a font family!</p>
@@ -230,80 +233,163 @@
         <div class="content-container page-content">
             <form action="#">
               <div class="questionContainer">
-                <p>How to run font-bakery?</p>
-                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="android">
-                    <input type="radio" id="android" class="mdl-radio__button" name="options" checked />
-                    <span class="mdl-radio__label">Sandbox Mode</span>
-                </label>
-                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="android">
-                    <input type="radio" id="android" class="mdl-radio__button" name="options" checked />
-                    <span class="mdl-radio__label">Production Mode</span>
-                </label>
-              </div>
-              <div class="questionContainer">
-                <p>Choose an existing font or apply for a new one</p>
-                <div class="request-container">
-                    <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="text" id="sample1">
-                    <label class="mdl-textfield__label" for="sample1">Existing font</label>
-                  </div>
-                  <p>or</p>
-                  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1">
-                    <input type="checkbox" id="checkbox-1" class="mdl-checkbox__input" checked>
-                    <span class="mdl-checkbox__label">Request a new font</span>
+                <h6>How do you want to assess the font family?</h6>
+                <div class="choiseContainer">
+                  <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="sandbox">
+                      <input type="radio" id="sandbox" class="mdl-radio__button" name="mode" checked />
+                      <span class="mdl-radio__label">Sandbox Mode (Test while in development)</span>
+                  </label>
+                  <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="production">
+                      <input type="radio" id="production" class="mdl-radio__button" name="mode" checked />
+                      <span class="mdl-radio__label">Production Mode (Request an update)</span>
                   </label>
                 </div>
               </div>
               <div class="questionContainer">
-                  <p class="question">Does this submission include changes to glyph outlines?</p>
-                  <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="android">
-                    <input type="radio" id="android" class="mdl-radio__button" name="options" checked />
-                    <span class="mdl-radio__label">No. Absolutely no changes to glyph outlines.</span>
-                  </label>
-                  <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="android">
-                    <input type="radio" id="android" class="mdl-radio__button" name="options" checked />
-                    <span class="mdl-radio__label">Yes, but very subtle.</span>
-                  </label>
-                  <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="android">
-                    <input type="radio" id="android" class="mdl-radio__button" name="options" checked />
-                    <span class="mdl-radio__label">Yes. Likely to be noticed by average users.</span>
-                  </label>
+                <h6>Choose an existing font or apply for a new one</h6>
+                  <div class="request-container">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select getmdl-select__fix-height">
+                        <input type="text" value="" class="mdl-textfield__input" id="selectedFont" readonly>
+                        <input type="hidden" value="" name="selectedFont">
+                        <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
+                        <label for="selectedFont" class="mdl-textfield__label">Font name</label>
+                        <ul for="selectedFont" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+                            <li class="mdl-menu__item" data-val="A">A</li>
+                            <li class="mdl-menu__item" data-val="B">B</li>
+                            <li class="mdl-menu__item" data-val="C">C</li>
+                            <li class="mdl-menu__item" data-val="D">D</li>
+                            <li class="mdl-menu__item" data-val="F">F</li>
+                        </ul>
+                    </div>                    
+                    <div class="label-in-between">or</div>
+                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="request-new-checkbox">
+                      <input type="checkbox" id="request-new-checkbox" class="mdl-checkbox__input">
+                      <span class="mdl-checkbox__label">Request a new font</span>
+                    </label>
+                  </div>
               </div>
               <div class="questionContainer">
-                  <p class="question">Does this submission include changes to font metrics?</p>
-                  <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="android">
-                    <input type="radio" id="android" class="mdl-radio__button" name="options" checked />
-                    <span class="mdl-radio__label">No. Absolutely no changes to font metrics.</span>
-                  </label>
-                  <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="android">
-                    <input type="radio" id="android" class="mdl-radio__button" name="options" checked />
-                    <span class="mdl-radio__label">Yes, but very subtle.</span>
-                  </label>
-                  <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="android">
-                    <input type="radio" id="android" class="mdl-radio__button" name="options" checked />
-                    <span class="mdl-radio__label">Yes. Likely to be noticed by average users, potentially affecting the layout of user interfaces.</span>
-                  </label>
+                  <h6 class="question">Does this submission include changes to glyph outlines?</h6>
+                  <div class="choiseContainer">
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="no-glyph-outlines">
+                      <input type="radio" id="no-glyph-outlines" class="mdl-radio__button" name="glyph-outlines" checked />
+                      <span class="mdl-radio__label">No. Absolutely no changes to glyph outlines.</span>
+                    </label>
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="minimal-glyph-outlines">
+                      <input type="radio" id="minimal-glyph-outlines" class="mdl-radio__button" name="glyph-outlines" checked />
+                      <span class="mdl-radio__label">Yes, but very subtle.</span>
+                    </label>
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="yes-glyph-outlines">
+                      <input type="radio" id="yes-glyph-outlines" class="mdl-radio__button" name="glyph-outlines" checked />
+                      <span class="mdl-radio__label">Yes. Likely to be noticed by average users.</span>
+                    </label>
+                  </div>
               </div>
               <div class="questionContainer">
-                  <p class="question">Choose which tasks you want to run</p>
-                  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1">
-                    <input type="checkbox" id="checkbox-1" class="mdl-checkbox__input" checked>
-                    <span class="mdl-checkbox__label">Run Font Bakery task</span>
-                  </label>
-                  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1">
-                    <input type="checkbox" id="checkbox-1" class="mdl-checkbox__input" checked>
-                    <span class="mdl-checkbox__label">Run Diffenator task and compare against...</span>
-                  </label>
-                  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1">
-                    <input type="checkbox" id="checkbox-1" class="mdl-checkbox__input" checked>
-                    <span class="mdl-checkbox__label">Run browser 'differences and preview' taks and compare against ...</span>
-                  </label>
+                  <h6 class="question">Does this submission include changes to font metrics?</h6>
+                  <div class="choiseContainer">
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="no-font-metrics">
+                      <input type="radio" id="no-font-metrics" class="mdl-radio__button" name="font-metrics" checked />
+                      <span class="mdl-radio__label">No. Absolutely no changes to font metrics.</span>
+                    </label>
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="minimal-font-metrics">
+                      <input type="radio" id="minimal-font-metrics" class="mdl-radio__button" name="font-metrics" checked />
+                      <span class="mdl-radio__label">Yes, but very subtle.</span>
+                    </label>
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="yes-font-metrics">
+                      <input type="radio" id="yes-font-metrics" class="mdl-radio__button" name="font-metrics" checked />
+                      <span class="mdl-radio__label">Yes. Likely to be noticed by average users, potentially affecting the layout of user interfaces.</span>
+                    </label>
+                  </div>
+              </div>
+              <div class="questionContainer">
+                  <h6 class="question">Choose which tasks you want to run</h6>
+                  <div class="choiseContainer">
+                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="font-bakery-task">
+                      <input type="checkbox" id="font-bakery-task" class="mdl-checkbox__input" checked>
+                      <span class="mdl-checkbox__label">Run Font Bakery task</span>
+                    </label>
+                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="diffenator-task">
+                      <input type="checkbox" id="diffenator-task" class="mdl-checkbox__input" checked>
+                      <span class="mdl-checkbox__label">Run Diffenator task and compare against...</span>
+                    </label>
+                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="browser-differences-task">
+                      <input type="checkbox" id="browser-differences-task" class="mdl-checkbox__input" checked>
+                      <span class="mdl-checkbox__label">Run Browser 'differences and preview' tasks and compare against ...</span>
+                    </label>
+                  </div>
                   <p class="warning">All tasks are mandatory for a production PR</p>
               </div>
-              
-              <button class="initiate mdl-button mdl-js-button mdl-js-ripple-effect">Start process</button>
-            </form>
-            <!-- insert: user-interfaces-nope -->
+
+            <div class="questionContainer" hidden>
+              <h6>Family Name</h6>
+              <div class="request-container">
+                  <div class="mdl-textfield mdl-js-textfield">
+                  <input class="mdl-textfield__input" type="text" id="existing-font">
+                  <label class="mdl-textfield__label" for="sample1">The name of your font</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="questionContainer" hidden>
+              <h6>Family Key Suffix</h6>
+              <div class="request-container">
+                  <div class="mdl-textfield mdl-js-textfield">
+                  <input class="mdl-textfield__input" type="text" id="existing-font">
+                  <label class="mdl-textfield__label" for="sample1">Feature branch identifier</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="questionContainer" hidden>
+              <h6>GitHub Repository</h6>
+              <div class="request-container">
+                  <div class="mdl-textfield mdl-js-textfield">
+                  <input class="mdl-textfield__input" type="text" id="existing-font">
+                  <label class="mdl-textfield__label" for="sample1">GitHub URL or {owner}/{repo-name}</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="questionContainer" hidden>
+              <h6>Git branch name (default: master)</h6>
+              <div class="request-container">
+                  <div class="mdl-textfield mdl-js-textfield">
+                  <input class="mdl-textfield__input" type="text" id="existing-font">
+                  <label class="mdl-textfield__label" for="sample1">master</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="questionContainer" hidden>
+              <h6>Where are the TTF-files in your repo (folder and file-prefix)</h6>
+              <div class="request-container">
+                  <div class="mdl-textfield mdl-js-textfield">
+                  <input class="mdl-textfield__input" type="text" id="existing-font">
+                  <label class="mdl-textfield__label" for="sample1">fonts/GenericSansCondensed-</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="questionContainer" hidden>
+              <h6>Genre</h6>
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select getmdl-select__fix-height">
+                  <input type="text" value="" class="mdl-textfield__input" id="sample5" readonly>
+                  <input type="hidden" value="" name="sample5">
+                  <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
+                  <label for="sample5" class="mdl-textfield__label">Category</label>
+                  <ul for="sample5" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+                      <li class="mdl-menu__item" data-val="Display">Display</li>
+                      <li class="mdl-menu__item" data-val="Serif">Serif</li>
+                      <li class="mdl-menu__item" data-val="SansSerif">Sans Serif</li>
+                      <li class="mdl-menu__item" data-val="Handwriting">Handwriting</li>
+                      <li class="mdl-menu__item" data-val="Monospace">Monospace</li>
+                  </ul>
+              </div>
+            </div>
+          </form>
+          <!-- insert: user-interfaces -->
+
         </div>
     </div>
 
@@ -349,8 +435,7 @@
         <h5>History:</h5>
         <!-- insert: history -->
     </div>
-
-</div>
+</script>
 
 <div class="collection-report-templates" style="display:none">
     <div class="report-root">

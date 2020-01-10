@@ -317,11 +317,20 @@ hr.navigation{
 .request-container{
     display: flex;
     align-items: center;
-    justify-content: center;
+    margin-left: var(--spacing-small);
+}
+
+.choiseContainer{
+    margin-left: var(--spacing-small);
+    display: flex;
+    flex-direction: column;
+}
+
+.choiseContainer > *{
+    margin-top: 5px !important;
 }
 
 .questionContainer{
-    padding-top: var(--spacing-large);
     display: flex;
     flex-direction: column;
 }
@@ -330,6 +339,11 @@ hr.navigation{
     padding-top: 0px;
     display: flex;
     flex-direction: column;
+}
+
+.label-in-between{
+    margin-left: var(--spacing-small);
+    margin-right: var(--spacing-small);
 }
 
 .request-container > * {

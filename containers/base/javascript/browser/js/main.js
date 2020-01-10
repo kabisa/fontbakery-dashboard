@@ -281,7 +281,7 @@ define([
         var container = activateTemplate('dispatcher-interface')
          , templatesContainer = getTemplatesContainer('dispatcher-templates')
          , socket = socketio('/')
-         , dispatcher = new DispatcherController(container, templatesContainer, socket, data)
+         , dispatcher = new DispatcherController(container, templatesContainer, socket, data, componentHandler)
          , sessionChangeHandler = dispatcher.sessionChangeHandler.bind(dispatcher)
          , unsubscribeSessionChange = authController.onSessionChange(sessionChangeHandler, true)
          ;
