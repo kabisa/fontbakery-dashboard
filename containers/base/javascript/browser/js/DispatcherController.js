@@ -72,13 +72,71 @@ define([
       });
     }
 
+    function newCheckboxClick(e) {
+      var checked = document.getElementById("request-new-checkbox").checked;
+      
+      if (checked){
+        document.getElementById("existing-font-questions").style.display = "none";
+        document.getElementById("new-font-questions").style.display = "inline";
+
+        document.getElementById("fontSelect").style.display = "none";
+        document.getElementById("fontSelectLabel").style.display = "none";
+      }
+      else{
+        document.getElementById("existing-font-questions").style.display = "inline";
+        document.getElementById("new-font-questions").style.display = "none";
+
+        document.getElementById("fontSelect").style.display = "inline";
+        document.getElementById("fontSelectLabel").style.display = "inline";
+      }
+    }
+
+    var inputList = ['selectedFont', 'selectedFontPointer', 'request-new-checkbox', 'sandbox', 'production', 'no-glyph-outlines', 'minimal-glyph-outlines', 'yes-glyph-outlines' , 'no-font-metrics' , 'minimal-font-metrics', 'yes-font-metrics', 'font-bakery-task', 'diffenator-task', 'browser-differences-task'];
+
+    _p._disableInputs = function(template){
+
+      for (var index = 0; index < inputList.length; index++){
+        template.getElementById(inputList[index]).disabled = true;
+      }
+
+    }
+
+    _p._enableInputs = function(template){
+      for (var index = 0; index < inputList.length; index++){
+        template.getElementById(inputList[index]).disabled = false;
+      }
+    }
+
+    _p._initUI = function(template) {
+      template.getElementById("request-new-checkbox").addEventListener('click', newCheckboxClick);
+        
+      // Check if user has session
+      var userHasSession = (!this._session || this._session.status !== 'OK');
+      
+      if (userHasSession){
+        template.getElementById("login-card").style.display = "flex";
+        this._disableInputs(template);
+      }
+
+      else {
+        template.getElementById("login-card").style.display = "none";
+        this._enableInputs(template);
+      }
+    }
+
     _p._getElementFromTemplate = function(className) {
 
       var templateString = this._templatesContainer.innerHTML;
       var template = document.createRange().createContextualFragment(templateString);
       var element = template.querySelector("." + className);
 
+      // Add event listeners to the UI
+      this._initUI(template);
+      
+      // Connect mdl to the new template
       this._mdlComponentHandler.upgradeElements(element);
+
+      // init the dropdown menu's
       this._initMdlDropdowns(template);
 
       return element;
@@ -559,7 +617,7 @@ define([
           , named = {}
           ;
 
-          form.classList.add("questionContainer");
+        form.classList.add("questionContainer");
 
         // If any uiField has a key 'condition'
         // the value lools like [string name, value]
@@ -585,6 +643,12 @@ define([
               ;
             switch(uiField.type) {
                 case('choice'):
+                    [label, input] = this._uiMakeChoice(uiField, disabled);
+                    break;
+                case('dropdown'):
+                    [label, input] = this._uiMakeDropdown(uiField, disabled);
+                    break;
+                case('radio'):
                     [label, input] = this._uiMakeChoice(uiField, disabled);
                     break;
                 case('line'):
@@ -740,6 +804,84 @@ define([
         if(disabled) select.disabled = true;
         return this._uiLabel(description, select);
     };
+
+    _p._uiMakeDropdown = function(description, disabled) {
+        var defaultVal = 0
+          , options = []
+          , i, l, label, value, select
+          ;
+        for( i=0,l=description.options.length;i<l;i++) {
+            if(description.options[i] instanceof Array) {
+                label = description.options[i][0];
+                value = description.options[i][1];
+            }
+            else
+                label = value = description.options[i];
+            // we don't roundtrip the value trough dom, it's to easy to
+            // manipulate ;-)
+            options.push(dom.createElement('option', {}, label));
+            if(description.default === value || description.default === i)
+                defaultVal = i;
+        }
+        
+        //QuestionContainer < request-container < textfield
+
+        /*
+        <div class="questionContainer">
+                <h6>Choose an existing font or apply for a new one</h6>
+                  <div class="request-container">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select getmdl-select__fix-height" id="fontSelect">
+                        <input type="text" value="" class="mdl-textfield__input" id="selectedFont" readonly>
+                        <input type="hidden" value="" name="selectedFont" id="selectedFontPointer">
+                        <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
+                        <label for="selectedFont" class="mdl-textfield__label">Font name</label>
+                        <ul for="selectedFont" id="selectedFontList" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+                            <!-- <li class="mdl-menu__item" data-val="A">A</li>
+                            <li class="mdl-menu__item" data-val="B">B</li>
+                            <li class="mdl-menu__item" data-val="C">C</li>
+                            <li class="mdl-menu__item" data-val="D">D</li>
+                            <li class="mdl-menu__item" data-val="F">F</li> -->
+                        </ul>
+                    </div> 
+        */
+
+        var divQuestionContainer = document.createElement('div');
+        divQuestionContainer.classList.add('questionContainer');
+
+        var questionTitle = document.createElement('h6');
+        questionTitle.innerHTML = description.label;
+
+        var divRequestContainer = document.createElement('div');
+        divQuestionContainer.classList.add('request-container');
+        
+        var divTextfield = document.createElement('div');
+        divTextfield.classList.add('mdl-textfield', 'mdl-js-textfield', 'mdl-textfield--floating-label', 'getmdl-select', 'getmdl-select__fix-height', 'is-disabled', 'is-upgraded');
+        divTextfield.id = "fontSelect";
+
+        var inputTextfieldInput = document.createElement('input');
+        inputTextfieldInput.classList.add('mdl-textfield__input');
+        inputTextfieldInput.type = 'text';
+        inputTextfieldInput.id = 'selectedFont';
+
+        var valueInput = document.createElement('input');
+        valueInput.type = 'hidden';
+        valueInput.name = 'selectedFont';
+        valueInput.id = 'selectedFontPointer';
+
+        var icon = document.createElement('i');
+        icon.classList.add('mdl-icon-toggle__label', 'material-icons-textfield__input');
+        icon.innerHTML = 'keyboard_arrow_down';
+
+  
+        divTextfield.appendChild(inputTextfieldInput);
+        divTextfield.appendChild(valueInput);
+        divTextfield.appendChild(icon);
+        divRequestContainer.appendChild(divTextfield);
+        divQuestionContainer.appendChild(questionTitle);
+        divQuestionContainer.appendChild(divRequestContainer);
+
+        return this._uiLabel(description, divQuestionContainer);
+    }
 
     _p._uiGetChoice = function(description, input) {
         if(input.selectedIndex === -1)

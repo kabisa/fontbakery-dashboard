@@ -2285,8 +2285,8 @@ function uiPreInit(resources) {
                 // and production mode is selected.
               , condition: [['registered', true]
                           , ['mode', PROCESS_MODE_PRODUCTION]]
-              , type: 'choice' // => could be a select or a radio
-              , label: 'Pick the family to request an update:'
+              , type: 'dropdown' // => could be a select or a radio
+              , label: 'Pick the family to request an update'
               , options: productionFamilyList
               //, default: 'Family Name' // 0 => the first item is the default
             }
@@ -2296,8 +2296,8 @@ function uiPreInit(resources) {
                 // and sandbox mode is selected.
               , condition: [['registered', true]
                           , ['mode', PROCESS_MODE_SANDBOX]]
-              , type: 'choice' // => could be a select or a radio
-              , label: 'Pick the family to request an update:'
+              , type: 'dropdown' // => could be a select or a radio
+              , label: 'Pick the family to request an update'
               , options: sandboxFamilyList
               //, default: 'Family Name' // 0 => the first item is the default
             }
